@@ -37,15 +37,14 @@ namespace HT_Design_Pattern.PageObjects
             Actions ac = new Actions(webDriver);
 
             WebDriverWait wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(50));
-            //wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeSelected(CommposeBoxField));
+            //used to click Compose
             ac.MoveToElement(CommposeBoxField).Click().Build().Perform();
            
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(SenderMailField));
-            ac.MoveToElement(SenderMailField).Build().Perform();
             SenderMailField.SendKeys(senderMail); 
             SubjectField.SendKeys(subject); 
             TextBoxField.SendKeys(textbox); 
-            //SaveCloseField.Click();
+
             var SaveCloseButton = new Button(SaveCloseField);
             SaveCloseButton.Click();
         }
