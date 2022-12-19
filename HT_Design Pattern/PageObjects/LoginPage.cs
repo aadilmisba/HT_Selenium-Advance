@@ -25,32 +25,32 @@ namespace HT_Design_Pattern.PageObjects
         {
         }
 
-        public IWebElement UsernameField => webDriver.FindElement(By.Id("identifierId"));
+        //public IWebElement UsernameField => driver.FindElement(By.Id("identifierId"));
+        public TextBox UsernameField => new TextBox(driver.FindElement(By.Id("identifierId")));
 
-        public IWebElement NextButton => webDriver.FindElement(By.Id("identifierNext"));
-        public IWebElement PasswordField => webDriver.FindElement(By.XPath("//*[@id='password']//input"));
+        public Button UsernameButton => new Button(driver.FindElement(By.Id("identifierNext")));
+        public Button PasswordButton => new Button(driver.FindElement(By.Id("passwordNext")));
 
-        
-        
-        public IWebElement LoginButton => webDriver.FindElement(By.Id("passwordNext"));
+        //public IWebElement PasswordField => driver.FindElement(By.XPath("//*[@id='password']//input"));
+        public TextBox PasswordField => new TextBox(driver.FindElement(By.XPath("//*[@id='password']//input")));
 
-        public IWebElement MainPage => webDriver.FindElement(By.CssSelector("body"));
+        public WebDriverWait wait => new WebDriverWait(driver, TimeSpan.FromSeconds(50));
+
+        public IWebElement MainPage => driver.FindElement(By.CssSelector("body"));
 
         //TODO string senderMail, string subject, string textbox parameter values are not used in function
         public void Login(string username, string password)
         {
+            //passing the value from test
+            UsernameField.SendKeys(username);
 
-            IJavaScriptExecutor jsExecutor = (IJavaScriptExecutor)webDriver;
+            //var UsernameButton = new Button(NextButton);
+            UsernameButton.Click();
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(driver.FindElement(By.XPath("//*[@id='password']//input"))));
+            //pass this value from test
+            PasswordField.SendKeys(password);
 
-            WebDriverWait wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(50));
-            jsExecutor.ExecuteScript("arguments[0].setAttribute('style', 'border:2px solid red; background:yellow')", UsernameField);
-            UsernameField.SendKeys(username); //pass this value from test
-            //NextButton.Click();
-            jsExecutor.ExecuteScript("arguments[0].click();", NextButton);
-            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(PasswordField));
-            PasswordField.SendKeys(password); //pass this value from test
-            //LoginButton.Click();
-            var PasswordButton = new Button(LoginButton);
+            //var PasswordButton = new Button(LoginButton);
             PasswordButton.Click();
 
         }

@@ -26,34 +26,37 @@ namespace HT_Design_Pattern.PageObjects
         {
         }
 
-        public IWebElement SentField => webDriver.FindElement(By.XPath("//a[contains(text(),'Sent')]"));
+        public IWebElement SentMail => driver.FindElement(By.XPath("//div[@role='link']//span[contains(text(),'Sample Subject')]"));
 
-        public IWebElement SentMail => webDriver.FindElement(By.XPath("//div[@role='link']//span[contains(text(),'Sample Subject')]"));
+        public IWebElement newTextbox => driver.FindElement(By.XPath("//div[@aria-label='Message Body']"));
 
-        public IWebElement newTextbox => webDriver.FindElement(By.XPath("//div[@aria-label='Message Body']"));
+        public IWebElement newSendField => driver.FindElement(By.XPath("//div[text()='Send']"));
 
-        public IWebElement newSendField => webDriver.FindElement(By.XPath("//div[text()='Send']"));
+        public IWebElement updatedSentMail => driver.FindElement(By.XPath("//div[@role='link']//span[contains(text(),'Sample Subject')]"));
 
-        public IWebElement updatedSentMail => webDriver.FindElement(By.XPath("//div[@role='link']//span[contains(text(),'Sample Subject')]"));
+        public IWebElement moreField => driver.FindElement(By.XPath("//span[contains(text(),'More')]"));
 
-        public IWebElement moreField => webDriver.FindElement(By.XPath("//span[contains(text(),'More')]"));
+        public IWebElement trashField => driver.FindElement(By.XPath("//a[contains(text(),'Trash')]"));
 
-        public IWebElement trashField => webDriver.FindElement(By.XPath("//a[contains(text(),'Trash')]"));
+        public IWebElement newSentMail => driver.FindElement(By.XPath("//div[@role='link']//span[contains(text(),'Sample Subject')]"));
 
-        public IWebElement newSentMail => webDriver.FindElement(By.XPath("//div[@role='link']//span[contains(text(),'Sample Subject')]"));
+        public IWebElement AccountField => driver.FindElement(By.CssSelector("img.gb_Ca.gbii"));
 
-        public IWebElement AccountField => webDriver.FindElement(By.CssSelector("img.gb_Ca.gbii"));
+        //public IWebElement SignOut => driver.FindElement(By.XPath("//div[text()='Sign out']"));
 
-        public IWebElement SignOut => webDriver.FindElement(By.XPath("//div[text()='Sign out']"));
-     
+        public Button SentButton => new Button(driver.FindElement(By.XPath("//a[contains(text(),'Sent')]")));
+        public Button updatedSentButton => new Button(driver.FindElement(By.XPath("//div[@role='link']//span[contains(text(),'Sample Subject')]")));
+        public Button AccountButton => new Button(driver.FindElement(By.CssSelector("img.gb_Ca.gbii")));
+        public Button SignOutButton => new Button(driver.FindElement(By.XPath("//div[text()='Sign out']")));
+
 
         public void SendMails(string newMessage)
         {
-            Actions ac = new Actions(webDriver);
+            Actions ac = new Actions(driver);
 
-            WebDriverWait wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(50));
-            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(SentField));
-            var SentButton = new Button(SentField);
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(50));
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(driver.FindElement(By.XPath("//div[@role='link']//span[contains(text(),'Sample Subject')]"))));
+            
             SentButton.Click();
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(SentMail));
             ac.ContextClick(SentMail).Build().Perform();
@@ -61,16 +64,16 @@ namespace HT_Design_Pattern.PageObjects
             newTextbox.SendKeys(newMessage);
             ac.MoveToElement(newSendField).Click().Build().Perform();
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(updatedSentMail));
-            var updatedSentButton = new Button(updatedSentMail);
+            
             updatedSentButton.Click();
-            webDriver.Navigate().Back();
+            driver.Navigate().Back();
         }
 
         public void DeleteMail()
         {
-            Actions ac = new Actions(webDriver);
+            Actions ac = new Actions(driver);
 
-            WebDriverWait wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(50));
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(50));
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(moreField));
             ac.MoveToElement(moreField).Build().Perform();
             ac.Click(moreField).Perform();
@@ -84,13 +87,13 @@ namespace HT_Design_Pattern.PageObjects
         public void LogOut()
         {
             //AccountField.Click();
-            var AccountButton = new Button(AccountField);
+            
             AccountButton.Click();
-            webDriver.SwitchTo().Frame("account");
+            driver.SwitchTo().Frame("account");
             //SignOut.Click();
-            var SignOutButton = new Button(SignOut);
+           
             SignOutButton.Click();
-            webDriver.SwitchTo().ParentFrame();
+            driver.SwitchTo().ParentFrame();
         }
 
 

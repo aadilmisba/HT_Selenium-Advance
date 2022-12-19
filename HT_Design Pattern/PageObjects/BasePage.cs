@@ -18,17 +18,17 @@ namespace HT_Design_Pattern.PageObjects
         private readonly string host = "https://mail.google.com/";
         private readonly string url;
 
-        protected readonly IWebDriver webDriver;
+        protected readonly IWebDriver driver;
 
         public BasePage(string url, IWebDriver browser)
         {
             this.url = url;
-            this.webDriver = browser;
+            this.driver = browser;
         }
 
         public void Open()
         {
-            webDriver.Navigate().GoToUrl(host + url);
+            driver.Navigate().GoToUrl(host + url);
         }
     }
 }

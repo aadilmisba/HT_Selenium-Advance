@@ -23,7 +23,7 @@ namespace HT_Design_Pattern
     [TestFixture("firefox")]
     public class UnitTest 
     {
-        protected Driver webDriver;
+        protected Driver driver;
         protected string drivername;
         
         public UnitTest(string drivername)
@@ -34,14 +34,14 @@ namespace HT_Design_Pattern
         [SetUp]
         public void inititalize()
         {
-            webDriver = new Driver(drivername);
+            driver = new Driver(drivername);
 
         }
 
         [TestCase]
         public void TestMethod()
         {
-            var loginPage = new LoginPage(webDriver.driver);
+            var loginPage = new LoginPage(driver.driver);
             loginPage.Open();
             loginPage.Login("aadilmuhammadu@gmail.com", "Test@123");
             Assert.AreEqual(loginPage.UsernameField.GetAttribute("value"), "aadilmuhammadu@gmail.com");
@@ -49,13 +49,13 @@ namespace HT_Design_Pattern
 
             //Assert for login is successful
             Assert.True(loginPage.MainPage.Displayed, "The login is successful");   
-            var InboxPage = new InboxPage(webDriver.driver);
+            var InboxPage = new InboxPage(driver.driver);
             InboxPage.Compose("aadilmisba3@gmail.com", "Sample Subject", "Test Mail");
-            var DraftPage = new DraftPage(webDriver.driver);
+            var DraftPage = new DraftPage(driver.driver);
             DraftPage.DraftMails();
            
 
-            var SentPage = new SentPage(webDriver.driver);
+            var SentPage = new SentPage(driver.driver);
             SentPage.SendMails("Updated");
             SentPage.DeleteMail();
             SentPage.LogOut();
@@ -65,7 +65,7 @@ namespace HT_Design_Pattern
         [TestCleanup]
         public void Cleanup()
         {
-            webDriver.Close();
+            driver.Close();
         }
 
 

@@ -19,16 +19,17 @@ namespace HT_Design_Pattern
     public class Driver
     {
         public IWebDriver? driver;
+
         string hubUrl = "http://localhost:4444/wd/hub";
 
-        public Driver(string browserName) 
+        public Driver(string browserName)
         {
             if (browserName == "chrome")
             {
                 ChromeOptions options = new ChromeOptions();
 
                 driver = new RemoteWebDriver(new Uri(hubUrl), options);
-                //webDriver = new RemoteWebDriver(new Uri(hubUrl), options1);
+                //driver = new RemoteWebDriver(new Uri(hubUrl), options1);
 
                 driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(50);
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(50);
@@ -57,6 +58,8 @@ namespace HT_Design_Pattern
             }
 
         }
+
+       
 
      
 
